@@ -23,7 +23,9 @@ function getProjectTasks(id) {
     .select(
       'tasks.step_number as Step Number',
       'tasks.description',
-      'projects.name'
+      'projects.name as Project Name',
+      'projects.description as Project Description',
+      'tasks.notes as Notes'
     )
     .join('projects', 'tasks.project_id', 'projects.id')
     .orderBy('tasks.step_number')
