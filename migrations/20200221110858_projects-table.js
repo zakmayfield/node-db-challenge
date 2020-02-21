@@ -26,6 +26,7 @@ exports.up = function (knex) {
       tasks.boolean('completed', 244)
         .notNullable()
         .defaultTo(false);
+
       tasks.integer('project_id', 244)
         .unsigned()
         .notNullable()
@@ -42,6 +43,7 @@ exports.up = function (knex) {
         .inTable('projects')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+
       pr.integer('resource_id', 244)
         .unsigned()
         .notNullable()
@@ -49,9 +51,15 @@ exports.up = function (knex) {
         .inTable('resources')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
+
+      pr.primary(['project_id', 'resource_id']);
     })
 };
 
 exports.down = function (knex) {
-
+  return knex.schema
+    .dropTableIfExists('project_resources')
+    .dropTableIfExists('tasks')
+    .dropTableIfExists('resources')
+    .dropTableIfExists('projects')
 };
