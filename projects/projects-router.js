@@ -59,11 +59,22 @@ router.post('/resources', (req, res) => {
 
 router.post('/:id/tasks', (req, res) => {
   let taskData = req.body;
-  taskData = { ...taskData, project_id: req.params.id}
+  taskData = { ...taskData, project_id: req.params.id }
 
   Projects.addTask(taskData)
     .then(task => {
       res.status(200).json(task)
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: "server error" })
+    })
+})
+
+router.get('/:id/project', (req, res) => {
+  Projects.getFullDetails(req.params.id)
+    .then(fullProject => {
+      res.status(200).json(fullProject)
     })
     .catch(err => {
       console.log(err)
